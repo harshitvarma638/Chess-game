@@ -32,7 +32,7 @@ export function UserAuthContextProvider({children}){
         return createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log('User Signed in:',user);
+            // console.log('User Signed in:',user);
             return updateProfile(user, { displayName: name })
                 .then(() => {
                     console.log('User profile updated with name:', name);
@@ -56,7 +56,7 @@ export function UserAuthContextProvider({children}){
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth, (currentuser)=>{
-            console.log("Auth",currentuser);
+            // console.log("Auth",currentuser);
             setUser(currentuser);
         });
         return () => {
