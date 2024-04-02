@@ -2,6 +2,9 @@ import {React, useState, useEffect} from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useUserAuth} from "../context/UserAuthConfig";
+import Board from "./Board";
+import { gameSubject } from './Game';
+
 import io from "socket.io-client";
 
 const socket = io("http://localhost:3001", {transports: ['websocket']});
@@ -12,6 +15,7 @@ const Home = ()=>{
     const [error, setError] = useState('');
     const [counter, setCounter] = useState(0);
     const [isInRoom, setIsInRoom] = useState(false);
+    const [board, setBoard] = useState([]);
     const navigate = useNavigate();
     const handleLogout = async() => {
         try{
@@ -35,13 +39,19 @@ const Home = ()=>{
         socket.emit('incrementCounter', { roomId });
     }
 
+    useEffect(() => {
+        const subscribe = gameSubject.subscribe((game) => {
+            setBoard(game.board);
+        });
+        return () => subscribe.unsubscribe();
+    },[]);
 
     useEffect(() => {
         socket.on('room-created', ({ roomID }) => {
             setRoomId(roomID);
         });
 
-        socket.on('room-joined', ({ roomID,counter }) => {
+        socket.on('room-joined', ({ roomID,counter,playerIndex}) => {
             setRoomId(roomID);
             setCounter(counter);
             setIsInRoom(true);
@@ -99,6 +109,11 @@ const Home = ()=>{
                 )}
                 {isInRoom && (
                     <div>
+                    <div className="container">
+                        <div className="board-container">
+                            <Board board = {board}/>
+                        </div>
+                    </div>
                     <p>Room ID: {roomId}</p>
                     <p>Counter: {counter}</p>
                     <button onClick={incrementCounter}>Increment Counter</button>

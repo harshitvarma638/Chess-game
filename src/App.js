@@ -1,5 +1,5 @@
 import './App.css';
-import React from "react";
+import {React} from "react";
 
 import {UserAuthContextProvider} from "./context/UserAuthConfig";
 import {Container,Row,Col} from "react-bootstrap";
@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+
 
 function App() {
   return (

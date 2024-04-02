@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
         rooms.push({
             roomID,
             players: [socket.id],
-            counter: 0
+            counter: 0,
         });
         socket.join(roomID);
         socket.emit('room-created', { roomID });
@@ -38,9 +38,11 @@ io.on('connection', (socket) => {
         const room = rooms.find(room => room.roomID === data.roomId);
         if (room) {
             if (room.players.length < MAX_PLAYERS_ALLOWED) {
+                // console.log(room.players.length)
                 room.players.push(socket.id);
                 socket.join(data.roomId);
-                io.to(data.roomId).emit('room-joined', { roomID: data.roomId, counter: room.counter});
+                room.PlayerIndex = room.players.length - 1;
+                io.to(data.roomId).emit('room-joined', { roomID: data.roomId, counter: room.counter, PlayerIndex: room.PlayerIndex});
             } else {
                 socket.emit('room-full', { message: 'Room is full. Please try another room or create a new one.' });
             }
