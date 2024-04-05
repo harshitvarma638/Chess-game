@@ -9,12 +9,13 @@ import {React,useState,useEffect} from "react";
 // import Login from "./components/Login";
 // import Signup from "./components/Signup";
 import Board from "./components/Board";
-import { gameSubject } from './components/Game';
+import { gameSubject,initGame } from './components/Game';
 
 
 function App() {
     const [board, setBoard] = useState([]);
     useEffect(() => {
+        initGame()
         const subscribe = gameSubject.subscribe((game) => {
             setBoard(game.board);
         });

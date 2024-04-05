@@ -41,7 +41,6 @@
   margin: 0;
   padding: 0;
   color: white;
-  background-color: rgb(34,34,34,34)
 }
 
 .board{
@@ -58,6 +57,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgb(34,34,34,34);
 }
 
 .board-container{
@@ -90,11 +90,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
+}
+
+.cursor-pointer{
+  cursor: pointer;
 }
 
 .piece{
   max-width: 70%;
   max-height: 70%;
-  background-color: transparent;
+}
+
+.promote-square{
+  width: 50%;
+  height: 50%;
 }
