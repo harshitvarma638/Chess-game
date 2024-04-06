@@ -2,7 +2,7 @@ import { React } from 'react';
 import '../App.css';
 import BoardSquare from './BoardSquare';
 
-export default function Board({board}) {
+export default function Board({board, turn}) {
     function getXYPosition(i) {
         const x = i % 8;
         const y = Math.abs(Math.floor(i / 8) - 7);

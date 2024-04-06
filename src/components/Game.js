@@ -1,14 +1,20 @@
 import {Chess} from 'chess.js';
 import { BehaviorSubject } from 'rxjs';
 
-let promotion = 'rnb2bnr/pppPkppp/8/4p3/7q/8/PPPP1PPP/RNBQKBNR w KQ - 1 5';
-
-const chess = new Chess(promotion);
-// console.log(chess.board());
+const chess = new Chess();
 
 export const gameSubject = new BehaviorSubject();
 
 export function initGame(){
+    const savedGame = localStorage.getItem('savedGame');
+    if(savedGame){
+        chess.load(savedGame)
+    }
+    updateGame()
+}
+
+export function resetGame(){
+    chess.reset();
     updateGame()
 }
 
@@ -18,7 +24,7 @@ export function handleMove(from, to){
     }).filter(m => m.promotion)
     // console.table(promotions)
     if(promotions.some(p => `${p.from}:${p.to}` === `${from}:${to}`)){
-        const pendingPromotion = {from, to, color: promotions[0].color}
+        const pendingPromotion = {from, to, color: promotions[0].color} || null;
         updateGame(pendingPromotion)
     }
     const { pendingPromotion } = gameSubject.getValue()
@@ -46,9 +52,37 @@ export function move(from, to, promotion) {
 }
 
 function updateGame(pendingPromotion) {
+    const isGameOver = chess.isGameOver();
     const newGame = {
         board: chess.board(),
-        pendingPromotion
+        pendingPromotion,
+        isGameOver,
+        turn: chess.turn(),
+        result: isGameOver ? getGameResult() : null
     }
+    localStorage.setItem('savedGame', chess.fen());
     gameSubject.next(newGame);
 } 
+
+function getGameResult(){
+    if(chess.isCheckmate()){
+        const winner = chess.turn() === 'w' ? 'BLACK': 'WHITE'
+        return `CHECKMATE - WINNER - ${winner}`;
+    }
+    else if(chess.isDraw()){
+        let reason = '50 - MOVES - RULE'
+        if(chess.isStalemate()){
+            reason = 'STALEMATE'
+        }
+        else if(chess.isThreefoldRepetition()){
+            reason = 'REPITITION'
+        }
+        else if(chess.isInsufficientMaterial()){
+            reason = 'INSUFFICIENT MATERIAL'
+        }
+        return `DRAW - REASON - ${reason}`;
+    }
+    else{
+        return 'UNKNOWN REASON';
+    }
+}
