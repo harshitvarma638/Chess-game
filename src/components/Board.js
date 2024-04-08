@@ -11,8 +11,8 @@ export default function Board({board, PlayerColor}) {
         );
     }, [board,PlayerColor]);
     function getXYPosition(i) {
-        const x = i % 8;
-        const y = Math.abs(Math.floor(i / 8) - 7);
+        const x = PlayerColor === 'w' ? i % 8 : Math.abs((i % 8) - 7);
+        const y = PlayerColor === 'w' ? Math.abs(Math.floor(i / 8) - 7) : Math.floor(i / 8);
         return { x, y };
     }
     function isBlack(i) {
