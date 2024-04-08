@@ -17,6 +17,7 @@ const Home = ()=>{
     const [board, setBoard] = useState([]);
     const [isGameOver, setIsGameOver] = useState();
     const [result, setResult] = useState();
+    const [PlayerColor, setPlayerColor] = useState('');
     // const [turn,setTurn] = useState();
     useEffect(() => {
         initGame()
@@ -53,8 +54,9 @@ const Home = ()=>{
             setRoomId(roomID);
         });
 
-        socket.on('room-joined', ({ roomID}) => {
+        socket.on('room-joined', ({ roomID, color}) => {
             setRoomId(roomID);
+            if(!PlayerColor) setPlayerColor(color);
             setIsInRoom(true);
         });
 
@@ -79,7 +81,7 @@ const Home = ()=>{
             socket.off('counterUpdated');
             socket.off('connect');
         };
-    }, []);
+    }, [PlayerColor]);
 
     return (
       <>
@@ -114,7 +116,7 @@ const Home = ()=>{
                         )}
                         {!isGameOver && <button onClick={()=>resetGame()} className="new-game margin"><span>NEW GAME</span></button>}
                         <div className="board-container">
-                            <Board board = {board}/>
+                            <Board board = {board} PlayerColor={PlayerColor}/>
                         </div>
                         {result && <p className="result-text">{result}</p>}
                     </div>

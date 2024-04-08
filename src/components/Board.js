@@ -1,8 +1,15 @@
-import { React } from 'react';
+import { React,useState,useEffect } from 'react';
 import '../App.css';
 import BoardSquare from './BoardSquare';
 
-export default function Board({board, turn}) {
+export default function Board({board, PlayerColor}) {
+    const [currBoard, setCurrBoard] = useState([]);
+
+    useEffect(() => {
+        setCurrBoard(
+            PlayerColor === 'w' ? board.flat() : board.flat().reverse()
+        );
+    }, [board,PlayerColor]);
     function getXYPosition(i) {
         const x = i % 8;
         const y = Math.abs(Math.floor(i / 8) - 7);
@@ -15,11 +22,11 @@ export default function Board({board, turn}) {
     function getPosition(i){
         const {x,y} = getXYPosition(i);
         const letter = ['a','b','c','d','e','f','g','h'][x];
-        return `${letter}${y+1}`;
+        return `${letter}${y + 1}`;
     }
     return (
         <div className="board">
-            {board.flat().map((piece, i) => (
+            {currBoard.map((piece, i) => (
                 <div key={i} className="square">
                     <BoardSquare 
                         piece={piece}

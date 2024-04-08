@@ -38,9 +38,10 @@ io.on('connection', (socket) => {
         if (room) {
             if (room.players.length < MAX_PLAYERS_ALLOWED) {
                 // console.log(room.players.length)
-                room.players.push(socket.id);
+                const color = room.players.length === 1 ? 'w' : 'b';
+                room.players.push({id: socket.id, color});
                 socket.join(data.roomId);
-                io.to(data.roomId).emit('room-joined', { roomID: data.roomId});
+                io.to(data.roomId).emit('room-joined', { roomID: data.roomId, color});
             } else {
                 socket.emit('room-full', { message: 'Room is full. Please try another room or create a new one.' });
             }
