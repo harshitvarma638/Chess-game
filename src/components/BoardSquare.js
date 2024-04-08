@@ -6,14 +6,14 @@ import {handleMove} from './Game';
 import { gameSubject } from './Game';
 import Promote from './Promotion';
 
-export default function BoardSquare({ piece,black,position }) {
+export default function BoardSquare({ piece,black,position,PlayerColor }) {
   const [promotion,setPromotion] = useState(null)
-  const [ , drop] = useDrop({
+  const [, drop] = useDrop({
     accept: 'piece',
     drop: (item) => {
       const [fromPosition] = item.id.split('_');
       handleMove(fromPosition,position)
-    },
+    }
   });
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function BoardSquare({ piece,black,position }) {
     <div className="board-square" ref={drop}>
         <Square black={black}>
           {promotion ? (<Promote promotion={promotion}/>) : piece ? 
-            (<Piece piece={piece} position={position}/>) : null}
+            (<Piece piece={piece} position={position} PlayerColor={PlayerColor}/>) : null}
         </Square>
     </div>
   )

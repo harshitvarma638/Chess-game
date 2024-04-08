@@ -32,6 +32,7 @@ export default function Board({board, PlayerColor}) {
                         piece={piece}
                         black={isBlack(i)}
                         position={getPosition(i)}
+                        PlayerColor={PlayerColor}
                     />
                 </div>
             ))}

@@ -2,6 +2,7 @@ import {Chess} from 'chess.js';
 import { BehaviorSubject } from 'rxjs';
 import io from 'socket.io-client';
 
+
 const socket = io('http://localhost:3001', {transports: ['websocket']}); // Connect to server
 
 
@@ -49,7 +50,7 @@ export function move(from, to, promotion) {
             tempMove.promotion = promotion
         }
         const legalMove = chess.move(tempMove);
-        if (legalMove) {
+        if (legalMove){
             socket.emit('move', legalMove); // Send move to server
             updateGame()
         } else {
