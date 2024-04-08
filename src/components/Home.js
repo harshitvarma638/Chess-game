@@ -2,7 +2,8 @@ import {React, useState, useEffect} from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useUserAuth} from "../context/UserAuthConfig";
-
+import Board from "./Board";
+import { gameSubject,initGame, resetGame } from './Game';
 
 import io from "socket.io-client";
 
@@ -12,8 +13,21 @@ const Home = ()=>{
     const {logOut,user} = useUserAuth();
     const [roomId, setRoomId] = useState('');
     const [error, setError] = useState('');
-    const [counter, setCounter] = useState(0);
     const [isInRoom, setIsInRoom] = useState(false);
+    const [board, setBoard] = useState([]);
+    const [isGameOver, setIsGameOver] = useState();
+    const [result, setResult] = useState();
+    // const [turn,setTurn] = useState();
+    useEffect(() => {
+        initGame()
+        const subscribe = gameSubject.subscribe((game) => {
+            setBoard(game.board);
+            setIsGameOver(game.isGameOver);
+            setResult(game.result);
+            // setTurn(game.turn);
+        });
+        return () => subscribe.unsubscribe();
+    },[]);
     
     const navigate = useNavigate();
     const handleLogout = async() => {
@@ -34,18 +48,13 @@ const Home = ()=>{
         socket.emit('joinRoom', { roomId });
     }
 
-    const incrementCounter = () => {
-        socket.emit('incrementCounter', { roomId });
-    }
-
     useEffect(() => {
         socket.on('room-created', ({ roomID }) => {
             setRoomId(roomID);
         });
 
-        socket.on('room-joined', ({ roomID,counter,playerIndex}) => {
+        socket.on('room-joined', ({ roomID}) => {
             setRoomId(roomID);
-            setCounter(counter);
             setIsInRoom(true);
         });
 
@@ -55,10 +64,6 @@ const Home = ()=>{
 
         socket.on('room-not-found', ({ message }) => {
             setError(message);
-        });
-
-        socket.on('counterUpdated', ({ counter }) => {
-            setCounter(counter);
         });
 
         socket.on("connect", () => {
@@ -78,10 +83,10 @@ const Home = ()=>{
 
     return (
       <>
-            <div className={"p-4 box mt-3 text-center"}>
+            <div>
                     Welcome <br/> {user && user.displayName ? user.displayName : user.email}
             </div>
-            <div className={"d-grid gap-2"}>
+            <div>
                 <Button variant={"primary"} onClick={handleLogout}>Log out</Button>
             </div>
             <div>
@@ -101,10 +106,19 @@ const Home = ()=>{
                 )}
                 {isInRoom && (
                     <div>
-                    
+                    <div className="container">
+                        {isGameOver && (
+                            <h2 className="vert-text"> GAME OVER 
+                                <button onClick={()=>resetGame()} className="new-game"><span>NEW GAME</span></button>
+                            </h2>
+                        )}
+                        {!isGameOver && <button onClick={()=>resetGame()} className="new-game margin"><span>NEW GAME</span></button>}
+                        <div className="board-container">
+                            <Board board = {board}/>
+                        </div>
+                        {result && <p className="result-text">{result}</p>}
+                    </div>
                     <p>Room ID: {roomId}</p>
-                    <p>Counter: {counter}</p>
-                    <button onClick={incrementCounter}>Increment Counter</button>
                     </div>
                 )}
             </div>

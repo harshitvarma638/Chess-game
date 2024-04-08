@@ -28,7 +28,6 @@ io.on('connection', (socket) => {
         rooms.push({
             roomID,
             players: [socket.id],
-            counter: 0,
         });
         socket.join(roomID);
         socket.emit('room-created', { roomID });
@@ -41,8 +40,7 @@ io.on('connection', (socket) => {
                 // console.log(room.players.length)
                 room.players.push(socket.id);
                 socket.join(data.roomId);
-                room.PlayerIndex = room.players.length - 1;
-                io.to(data.roomId).emit('room-joined', { roomID: data.roomId, counter: room.counter, PlayerIndex: room.PlayerIndex});
+                io.to(data.roomId).emit('room-joined', { roomID: data.roomId});
             } else {
                 socket.emit('room-full', { message: 'Room is full. Please try another room or create a new one.' });
             }
@@ -51,13 +49,23 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('incrementCounter', (data) => {
-        const room = rooms.find(room => room.roomID === data.roomId);
-        if (room) {
-            room.counter++;
-            io.to(data.roomId).emit('counterUpdated', { counter: room.counter });
-        }
+    socket.on('move', (data) =>{
+        // if(data.promotion){
+        //     const promotionOption = ['q', 'r', 'n', 'b'];
+        //     socket.broadcast.emit('promotion', {
+        //         from: data.from,
+        //         to: data.to,
+        //         color: data.color,
+        //         promotionOptions: promotionOption
+        //     })
+        // }
+        socket.broadcast.emit('move', data);
     });
+
+    socket.on('reset', () => {
+        socket.broadcast.emit('reset');
+    });
+
 });
 
 server.listen(3001, () => {

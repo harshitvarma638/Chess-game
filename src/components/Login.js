@@ -37,8 +37,8 @@ const Login = ()=>{
 
     return (
       <>
-          <div className={"p-4 box"}>
-              <h2 className={"mb-3"}>Login</h2>
+          <div>
+              <h2>Login</h2>
               {error && <Alert variant={"damage"}>{error}</Alert> }
               <Form onSubmit={handleSubmit}>
                   <Form.Group className={"mb-3"} controlId={"formBasicEmail"}>
@@ -48,7 +48,7 @@ const Login = ()=>{
                           onChange={(e)=> setEmail(e.target.value)}
                       />
                   </Form.Group>
-                  <Form.Group className={"mb-3"} controlId={"formBasicPassword"}>
+                  <Form.Group controlId={"formBasicPassword"}>
                       <Form.Control
                           type={"password"}
                           placeholder={"Password"}
@@ -56,7 +56,7 @@ const Login = ()=>{
                       />
                   </Form.Group>
 
-                  <div className={"d-grid gap-2"}>
+                  <div>
                       <Button variant={"primary"} type={"Submit"}>
                           Log in
                       </Button>
@@ -71,7 +71,7 @@ const Login = ()=>{
                   />
               </div>
           </div>
-          <div className={"p-4 box mt-3 text-center"}>
+          <div>
               Dont have a account?<Link to={"/signup"}>Sign up</Link>
           </div>
       </>

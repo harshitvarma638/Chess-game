@@ -1,5 +1,9 @@
 import {Chess} from 'chess.js';
 import { BehaviorSubject } from 'rxjs';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:3001', {transports: ['websocket']}); // Connect to server
+
 
 const chess = new Chess();
 
@@ -15,14 +19,19 @@ export function initGame(){
 
 export function resetGame(){
     chess.reset();
-    updateGame()
+    updateGame();
+    socket.emit('reset');
 }
+
+socket.on('reset', () => {
+    chess.reset();
+    updateGame();
+});
 
 export function handleMove(from, to){
     const promotions = chess.moves({
         verbose: true
     }).filter(m => m.promotion)
-    // console.table(promotions)
     if(promotions.some(p => `${p.from}:${p.to}` === `${from}:${to}`)){
         const pendingPromotion = {from, to, color: promotions[0].color} || null;
         updateGame(pendingPromotion)
@@ -41,6 +50,7 @@ export function move(from, to, promotion) {
         }
         const legalMove = chess.move(tempMove);
         if (legalMove) {
+            socket.emit('move', legalMove); // Send move to server
             updateGame()
         } else {
             console.warn('Invalid move');
@@ -51,13 +61,21 @@ export function move(from, to, promotion) {
     }
 }
 
+socket.on('move', (legalMove) => {
+    chess.move(legalMove);
+    updateGame();
+});
+
+// socket.on('promotion', (data) => {
+//     updateGame({ pendingPromotion: data });
+// });
+
 function updateGame(pendingPromotion) {
     const isGameOver = chess.isGameOver();
     const newGame = {
         board: chess.board(),
         pendingPromotion,
         isGameOver,
-        turn: chess.turn(),
         result: isGameOver ? getGameResult() : null
     }
     localStorage.setItem('savedGame', chess.fen());
