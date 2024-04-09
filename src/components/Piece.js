@@ -1,7 +1,9 @@
-import React from 'react';
+import {React,useContext} from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
+import { Color } from './Home';
 
-export default function Piece({ piece: {type,color}, position, PlayerColor }) {
+export default function Piece({ piece: {type,color}, position }) {
+    const PlayerColor = useContext(Color);
     const [{ isDragging }, drag, preview] = useDrag({
         type: 'piece',
         item: { id: `${position}_${type}_${color}`, type, color },

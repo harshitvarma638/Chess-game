@@ -24,44 +24,48 @@ const Signup = () => {
     };
 
     return (
-        <>
-            <div className={"p-4 box"}>
-                <h2 className={"mb-3"}>Register</h2>
+        <div className="login-page">
+            <div className="login-container">
+                <h2>Register</h2>
                 {error && <Alert variant={"damage"}>{error}</Alert> }
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group className={"mb-3"} controlId={"formBasicEmail"}>
+                <Form onSubmit={handleSubmit} className="login-form">
+                    <Form.Group controlId={"formBasicEmail"}>
                         <Form.Control
                             type={"email"}
                             placeholder={"Email address"}
+                            className={"form-input"}
                             onChange={(e)=> setEmail(e.target.value)}
                         />
                     </Form.Group>
-                    <Form.Group className={"mb-3"} controlId={"formBasicName"}>
+                    <Form.Group controlId={"formBasicName"}>
                         <Form.Control
                             type={"input"}
                             placeholder={"Name"}
+                            className={"form-input"}
                             onChange={(e)=> setName(e.target.value)}
                         />
                     </Form.Group>
-                    <Form.Group className={"mb-3"} controlId={"formBasicPassword"}>
+                    <Form.Group controlId={"formBasicPassword"}>
                         <Form.Control
                             type={"password"}
                             placeholder={"Password"}
+                            className={"form-input"}
                             onChange={(e)=> setPassword(e.target.value)}
                         />
                     </Form.Group>
 
-                    <div className={"d-grid gap-2"}>
-                        <Button variant={"primary"} type={"Submit"}>
+                    <div className="loginbtn-container">
+                        <Button variant={"primary"} type={"Submit"} className="login-btn">
                             Sign up
                         </Button>
                     </div>
                 </Form>
+                <div>
+                    Already have a account?<Link to={"/"}>Log In</Link>
+                </div>
             </div>
-            <div className={"p-4 box mt-3 text-center"}>
-                Already have a account?<Link to={"/"}>Log In</Link>
-            </div>
-        </>
+            
+        </div>
 
     );
 }

@@ -6,7 +6,7 @@ import {handleMove} from './Game';
 import { gameSubject } from './Game';
 import Promote from './Promotion';
 
-export default function BoardSquare({ piece,black,position,PlayerColor }) {
+export default function BoardSquare({ piece,black,position }) {
   const [promotion,setPromotion] = useState(null)
   const [, drop] = useDrop({
     accept: 'piece',
@@ -26,7 +26,7 @@ export default function BoardSquare({ piece,black,position,PlayerColor }) {
     <div className="board-square" ref={drop}>
         <Square black={black}>
           {promotion ? (<Promote promotion={promotion}/>) : piece ? 
-            (<Piece piece={piece} position={position} PlayerColor={PlayerColor}/>) : null}
+            (<Piece piece={piece} position={position}/>) : null}
         </Square>
     </div>
   )

@@ -1,5 +1,5 @@
 import './App.css';
-import {React,useState,useEffect} from "react";
+import {React} from "react";
 import {UserAuthContextProvider} from "./context/UserAuthConfig";
 import {Container,Row,Col} from "react-bootstrap";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
@@ -13,9 +13,9 @@ function App() {
 
   return (
       <Router>
-          <Container style={{ width: '400px' }}>
+          <Container>
               <Row>
-                  <Col>
+                  <Col> 
                       <UserAuthContextProvider>
                           <Routes>
                               <Route
@@ -30,7 +30,7 @@ function App() {
                               <Route path="/signup" element={<Signup />} />
                           </Routes>
                       </UserAuthContextProvider>
-                  </Col>
+                   </Col>
               </Row>
           </Container>
       </Router>

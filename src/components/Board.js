@@ -1,10 +1,11 @@
-import { React,useState,useEffect } from 'react';
+import { React,useState,useEffect,useContext } from 'react';
 import '../App.css';
 import BoardSquare from './BoardSquare';
+import {Color} from './Home';
 
-export default function Board({board, PlayerColor}) {
+export default function Board({board}) {
     const [currBoard, setCurrBoard] = useState([]);
-
+    const PlayerColor = useContext(Color);
     useEffect(() => {
         setCurrBoard(
             PlayerColor === 'w' ? board.flat() : board.flat().reverse()
@@ -32,7 +33,6 @@ export default function Board({board, PlayerColor}) {
                         piece={piece}
                         black={isBlack(i)}
                         position={getPosition(i)}
-                        PlayerColor={PlayerColor}
                     />
                 </div>
             ))}

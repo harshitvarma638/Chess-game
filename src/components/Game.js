@@ -83,6 +83,10 @@ function updateGame(pendingPromotion) {
     gameSubject.next(newGame);
 } 
 
+export function PlayerTurn(){
+    return chess.turn() === 'w' ? 'White' : 'Black';
+}
+
 function getGameResult(){
     if(chess.isCheckmate()){
         const winner = chess.turn() === 'w' ? 'BLACK': 'WHITE'

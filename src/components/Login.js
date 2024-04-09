@@ -36,45 +36,48 @@ const Login = ()=>{
     };
 
     return (
-      <>
-          <div>
+      <div className="login-page">
+          <div className="login-container">
               <h2>Login</h2>
               {error && <Alert variant={"damage"}>{error}</Alert> }
-              <Form onSubmit={handleSubmit}>
-                  <Form.Group className={"mb-3"} controlId={"formBasicEmail"}>
+              <Form onSubmit={handleSubmit} className="login-form">
+                  <Form.Group controlId={"formBasicEmail"}>
                       <Form.Control
                           type={"email"}
                           placeholder={"Email address"}
+                          className="form-input"
                           onChange={(e)=> setEmail(e.target.value)}
                       />
                   </Form.Group>
-                  <Form.Group controlId={"formBasicPassword"}>
+                  <Form.Group controlId={"formBasicPassword"} >
                       <Form.Control
                           type={"password"}
                           placeholder={"Password"}
+                          className="form-input"
                           onChange={(e)=> setPassword(e.target.value)}
                       />
                   </Form.Group>
 
-                  <div>
-                      <Button variant={"primary"} type={"Submit"}>
+                  <div className="loginbtn-container">
+                      <Button variant={"primary"} type={"Submit"} className="login-btn">
                           Log in
                       </Button>
                   </div>
               </Form>
               <hr/>
-              <div>
+              <div className="google">
                   <GoogleButton
                     className={"g-btn"}
                     type={"dark"}
                     onClick = {handleGoogleSignIn}
                   />
               </div>
+              <div>
+                Dont have a account?<Link to={"/signup"}>Sign up</Link>
+              </div>
           </div>
-          <div>
-              Dont have a account?<Link to={"/signup"}>Sign up</Link>
-          </div>
-      </>
+          
+      </div>
     );
 };
 

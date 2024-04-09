@@ -40,7 +40,181 @@
 * {
   margin: 0;
   padding: 0;
-  color: brown;
+}
+
+.login-page{
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+  border-radius: 10px;
+  background-color: white;
+  border: 2px solid black;
+}
+
+.login-btn{
+  width: 100px;
+  height: 30px; 
+  background-color: #54e659;
+  font-size: 15px;
+  padding: 5px;
+  margin: 10px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 7px;
+}
+
+.loginbtn-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.login-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+
+.login-container h2{
+  margin: 10px;
+  color: black;
+  font-size: 32px;
+  font-style: bold;
+}
+
+.user-info{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  margin: 10px;
+  color: white;
+}
+
+.user-name{
+  margin: 10px;
+  font-size: 20px;
+  color: white;
+}
+
+.logout-btn{
+  width: 100px;
+  height: 30px; 
+  background-color: rgb(239, 86, 86);
+  font-size: 15px;
+  padding: 5px;
+  margin: 10px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 7px;
+}
+
+.lobby{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: 20px;
+  background-color: white;
+  padding: 5rem;
+  border-radius: 10px;
+}
+
+.form-input{
+  width: 300px;
+  height: 40px;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 7px;
+  border: 1px solid black;
+}
+
+.create-room{
+  width: 150px;
+  height: 40px; 
+  background-color: #54e659;
+  font-size: 15px;
+  padding: 5px;
+  margin: 10px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 7px;
+}
+
+.join-room{
+  width: 130px;
+  height: 40px;
+  background-color: rgb(42, 185, 242);
+  font-size: 15px;
+  padding: 5px;
+  margin: 10px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 7px;
+}
+
+.room-id{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 6px;
+  padding: 5px;
+}
+
+.room-id i{
+  margin: 5px;
+  padding: 5px;
+}
+
+.roomId{
+  margin: 5px;
+  padding: 5px;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: white;
+}
+
+.roomId i{
+  margin: 5px;
+  padding: 5px;
+}
+
+.status{
+  color: white;
+  font-size: 20px;
+  font-style: bold;
+  margin: 10px;
+
 }
 
 .board{
