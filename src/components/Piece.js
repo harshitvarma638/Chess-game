@@ -1,6 +1,6 @@
 import {React,useContext} from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
-import { Color } from './Home';
+import { Color } from './GameRoom';
 
 export default function Piece({ piece: {type,color}, position }) {
     const PlayerColor = useContext(Color);

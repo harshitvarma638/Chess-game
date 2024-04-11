@@ -1,7 +1,7 @@
 import { React,useState,useEffect,useContext } from 'react';
 import '../App.css';
 import BoardSquare from './BoardSquare';
-import {Color} from './Home';
+import {Color} from './GameRoom';
 
 export default function Board({board}) {
     const [currBoard, setCurrBoard] = useState([]);

@@ -1,39 +1,23 @@
-import {React, useState, useEffect, createContext} from "react";
+import {React, useState, useEffect} from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useUserAuth} from "../context/UserAuthConfig";
-import Board from "./Board";
-import { gameSubject,initGame, resetGame,PlayerTurn } from './Game';
+// import Board from "./Board";
+
 
 
 import io from "socket.io-client";
 
 const socket = io("https://chess-backend-c82w.onrender.com", {transports: ['websocket']});
 
-const Color = createContext();
-
 const Home = ()=>{
     const {logOut,user} = useUserAuth();
     const [roomId, setRoomId] = useState('');
     const [error, setError] = useState('');
     const [isInRoom, setIsInRoom] = useState(false);
-    const [board, setBoard] = useState([]);
-    const [isGameOver, setIsGameOver] = useState();
-    const [result, setResult] = useState();
     const [PlayerColor, setPlayerColor] = useState('');
     const [isCopied, setIsCopied] = useState(false);
     // const [turn,setTurn] = useState();
-    useEffect(() => {
-        initGame()
-        const subscribe = gameSubject.subscribe((game) => {
-            setBoard(game.board);
-            setIsGameOver(game.isGameOver);
-            setResult(game.result);
-            // setTurn(game.turn);
-        });
-        return () => subscribe.unsubscribe();
-    },[]);
-    
     const navigate = useNavigate();
     const handleLogout = async() => {
         try{
@@ -74,9 +58,9 @@ const Home = ()=>{
             setRoomId(roomID);
             if(!PlayerColor) setPlayerColor(color);
             setIsInRoom(true);
+            // navigateToGameRoute(roomID,color);
+            navigate(`/game/${roomID}/${color}`);
         });
-
-        
 
         socket.on('room-full', ({ message }) => {
             setError(message);
@@ -99,7 +83,7 @@ const Home = ()=>{
             socket.off('counterUpdated');
             socket.off('connect');
         };
-    }, [PlayerColor]);
+    }, [PlayerColor,navigate]);
 
     return (
       <>    
@@ -134,36 +118,12 @@ const Home = ()=>{
                     {error && <p>{error}</p>}
                     </div>
                 )}
-                {isInRoom && (
-                    <div>
-                        <div className="roomId">
-                            <p>Room ID: {roomId}</p>
-                            {isCopied === false ? 
-                                (<i class="fa-regular fa-copy copy" onClick={CopyToClipboard}></i>)
-                                : (<><i class="fa-solid fa-check"></i></>)
-                            }
-                        </div>
-                        <div className="container">
-                            {isGameOver && (
-                                <h2 className="vert-text"> GAME OVER 
-                                    <button onClick={()=>resetGame()} className="new-game"><span>NEW GAME</span></button>
-                                </h2>
-                            )}
-                            {!isGameOver && <button onClick={()=>resetGame()} className="new-game margin"><span>NEW GAME</span></button>}
-                            <div className="board-container">
-                                <Color.Provider value={PlayerColor}>
-                                    <Board board = {board}/>
-                                </Color.Provider>
-                                {!result && <p className="status">Status: {PlayerTurn()} Player's Turn</p>}
-                            </div>
-                            {result && <p className="result-text">{result}</p>}
-                        </div>
-                    </div>
-                )}
+                {/* <Routes>
+                    <Route path={`/game/${roomId}`} element={<GameRoom PlayerColor={PlayerColor} roomId={roomId} />} />
+                </Routes> */}
             </div>
       </>
     );
 };
 
 export default Home;
-export { Color };
