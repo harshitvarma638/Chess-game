@@ -8,7 +8,7 @@ import { gameSubject,initGame, resetGame,PlayerTurn } from './Game';
 
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3001", {transports: ['websocket']});
+const socket = io("https://chess-backend-c82w.onrender.com", {transports: ['websocket']});
 
 const Color = createContext();
 

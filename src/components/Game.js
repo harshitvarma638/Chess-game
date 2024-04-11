@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import io from 'socket.io-client';
 
 
-const socket = io('http://localhost:3001', {transports: ['websocket']}); // Connect to server
+const socket = io('https://chess-backend-c82w.onrender.com', {transports: ['websocket']}); // Connect to server
 
 
 const chess = new Chess();
