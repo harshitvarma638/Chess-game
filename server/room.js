@@ -21,14 +21,17 @@ function generateRandomID(length){
 
 const MAX_PLAYERS_ALLOWED = 3;
 const rooms = [];
+// let currentRoom;
 
 io.on('connection', (socket) => {
+    
     socket.on('createRoom', () => {
         const roomID = generateRandomID(8);
         rooms.push({
             roomID,
             players: [socket.id],
         });
+        // currentRoom = roomID;
         socket.join(roomID);
         socket.emit('room-created', { roomID });
     });
@@ -37,9 +40,9 @@ io.on('connection', (socket) => {
         const room = rooms.find(room => room.roomID === data.roomId);
         if (room) {
             if (room.players.length < MAX_PLAYERS_ALLOWED) {
-                // console.log(room.players.length)
                 const color = room.players.length === 1 ? 'w' : 'b';
                 room.players.push({id: socket.id, color});
+                // currentRoom = data.roomId;
                 socket.join(data.roomId);
                 io.to(data.roomId).emit('room-joined', { roomID: data.roomId, color});
             } else {
@@ -51,15 +54,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('move', (data) =>{
-        // if(data.promotion){
-        //     const promotionOption = ['q', 'r', 'n', 'b'];
-        //     socket.broadcast.emit('promotion', {
-        //         from: data.from,
-        //         to: data.to,
-        //         color: data.color,
-        //         promotionOptions: promotionOption
-        //     })
-        // }
+        // console.log(currentRoom);
         socket.broadcast.emit('move', data);
     });
 

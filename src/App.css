@@ -286,6 +286,7 @@
   font-family: 'Times New Roman', Times, serif;
   padding: 10px;
   margin: 20px;
+  color: white;
 }
 
 .new-game{
@@ -312,4 +313,9 @@
   font-size: 20px;
   font-weight: bold;
   margin: 20px;
+  color: white;
+}
+
+.copy{
+  cursor:pointer;
 }

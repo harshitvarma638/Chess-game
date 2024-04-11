@@ -29,6 +29,7 @@ socket.on('reset', () => {
     updateGame();
 });
 
+
 export function handleMove(from, to){
     const promotions = chess.moves({
         verbose: true

@@ -62,6 +62,7 @@ const Home = ()=>{
 
     const joinRoom = () => {
         socket.emit('joinRoom', { roomId });
+        // socket.emit('room-id', { roomId });
     }
 
     useEffect(() => {
@@ -74,6 +75,8 @@ const Home = ()=>{
             if(!PlayerColor) setPlayerColor(color);
             setIsInRoom(true);
         });
+
+        
 
         socket.on('room-full', ({ message }) => {
             setError(message);
@@ -117,7 +120,7 @@ const Home = ()=>{
                     {roomId && 
                         <div className="room-id">
                             <p>Room ID: {roomId}</p>
-                            {isCopied === false ? (<i class="fa-regular fa-copy" onClick={CopyToClipboard}></i>) : (<i class="fa-solid fa-check"></i>)}
+                            {isCopied === false ? (<i class="fa-regular fa-copy copy" onClick={CopyToClipboard}></i>) : (<i class="fa-solid fa-check"></i>)}
                         </div>
                     }
                     <input
@@ -136,8 +139,8 @@ const Home = ()=>{
                         <div className="roomId">
                             <p>Room ID: {roomId}</p>
                             {isCopied === false ? 
-                                (<i class="fa-regular fa-copy" onClick={CopyToClipboard}></i>)
-                                : (<><i class="fa-solid fa-check"></i><p>Copied</p></>)
+                                (<i class="fa-regular fa-copy copy" onClick={CopyToClipboard}></i>)
+                                : (<><i class="fa-solid fa-check"></i></>)
                             }
                         </div>
                         <div className="container">
