@@ -5,12 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { UserAuthContextProvider } from './context/UserAuthConfig';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <DndProvider backend={HTML5Backend}>
-      <App />
+      <UserAuthContextProvider>
+        <App />
+      </UserAuthContextProvider>
     </DndProvider>
     {/* <App /> */}
   </React.StrictMode>
